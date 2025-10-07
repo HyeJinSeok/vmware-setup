@@ -25,6 +25,12 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 # ◈ VMware의 주요 구성 요소
 
+VMware 가상화 환경은 단일 소프트웨어로 동작하는 것이 아니라, <br> 서버 가상화, 중앙 관리, 개인용 가상화 등 여러 구성요소가 유기적으로 결합되어 동작한다. 
+
+이러한 구성요소들은 각각의 계층과 역할이 다르기 때문에, <br> 전체 구조를 이해하기 위해서는 각 요소의 기능과 동작방식을 개별적으로 살펴볼 필요가 있다.
+
+<br>
+
 ## 1️⃣ ESXi
 
 \- VMware의 핵심 제품이자 하이퍼바이저(Hypervisor) <br> \- 물리적인 하드웨어 자원을 VM들이 나누어 쓸 수 있도록 중간에서 **자원을 분배·관리**하는 소프트웨어 계층 <br> \- 즉, 하나의 물리 서버를 여러 개의 독립된 서버처럼 동작하게 만드는 역할을 수행함
@@ -36,6 +42,7 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 <img src="./images/vm1.png" width="600" alt="vm1">
 
+<br>
 
 ## 2️⃣ vCenter Server
 
@@ -45,6 +52,7 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 <img src="./images/vm2.png" width="600" alt="vm2">
 
+<br>
 
 ## 3️⃣ VMware Workstation
 
@@ -121,6 +129,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 <img src="./images/vm9.png" width="800" alt="vm9">
 
+<br>
 
 ## 2️⃣ DNS 서버 이름과 IPv4 주소 확인
 
@@ -128,6 +137,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 <img src="./images/vm10.png" width="600" alt="vm10">
 
+<br>
 
 ## 3️⃣ DNS 관리 콘솔(DNS Manager) 진입
 
@@ -135,6 +145,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 <img src="./images/vm11.png" width="600" alt="vm11">
 
+<br>
 
 ## 4️⃣ 정방향 조회 영역 생성 및 호스트 등록
 
@@ -155,7 +166,9 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 스토리지 가상화는 단순히 저장 공간을 늘리는 것이 아니라 <br> 자원 할당, 백업, 마이그레이션(vMotion) 등 **가상 인프라의 안정성과 확장성을 확보**하는 데 초점을 둔다.
 
-< 주요 스토리지 가상화 구성요소 특징 >
+<br>
+
+### < 주요 스토리지 가상화 구성요소 특징 >
 
 <table>
   <tr>
@@ -184,5 +197,6 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 <img src="./images/vm13.png" width="500" alt="vm13">
 
+<br>
 
 ## 1️⃣ 호스트 설정 진입
