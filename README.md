@@ -1,10 +1,11 @@
 # VMware Virtualization
 
-<br>
 
 VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다. <br> <strong> 물리적인 서버 한 대를 여러 개의 가상 머신(VM)</strong>으로 분리해 운영할 수 있도록 만들어주는 소프트웨어를 제공한다. <br> VMware는 데이터센터와 클라우드 인프라 전반을 가상화하는 데 초점을 맞춘다.
 
-< 가상화의 주요 기능 >
+<br>
+
+### < 가상화의 주요 기능 >
 
 <table>
   <tr><td>Sharing</td><td>여러 VM이 물리 자원을 공유하여 효율적으로 사용함</td></tr>
@@ -22,9 +23,9 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 <br>
 
-## ◈ VMware의 주요 구성 요소
+# ◈ VMware의 주요 구성 요소
 
-### 1️⃣ ESXi
+## 1️⃣ ESXi
 
 \- VMware의 핵심 제품이자 하이퍼바이저(Hypervisor) <br> \- 물리적인 하드웨어 자원을 VM들이 나누어 쓸 수 있도록 중간에서 **자원을 분배·관리**하는 소프트웨어 계층 <br> \- 즉, 하나의 물리 서버를 여러 개의 독립된 서버처럼 동작하게 만드는 역할을 수행함
 
@@ -36,7 +37,7 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 <img src="./images/vm1.png" width="600" alt="vm1">
 
 
-### 2️⃣ vCenter Server
+## 2️⃣ vCenter Server
 
 \- 여러 ESXi 호스트를 한 번에 관리할 수 있는 **중앙 집중형 관리 도구** <br> \- VM 생성, 백업, 스냅샷, 스토리지 연결, 네트워크 설정 등을 통합 관리함 <br> \- 대규모 환경에서는 vMotion, DRS, HA(고가용성) 기능 등을 지원함
 > [!TIP]
@@ -45,7 +46,7 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 <img src="./images/vm2.png" width="600" alt="vm2">
 
 
-### 3️⃣ VMware Workstation
+## 3️⃣ VMware Workstation
 
 \- 개인 사용자 및 개발자를 위한 데스크톱 가상화 솔루션 <br> \- 실제 기업용 ESXi 환경과 달리, 로컬PC에서 **가상 환경을 시뮬레이션**하는 용도로 사용됨 <br> \- VMware Workstation은 물리적 컴퓨터를 소프트웨어적으로 구현한 형태임
 
@@ -53,7 +54,7 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 <br>
 
-## ◈ VMware 네트워크 구성
+# ◈ VMware 네트워크 구성
 
 네트워크 설정은 가상화 환경에서 가장 중요한 핵심 요소 중 하나다. <br> VMware는 **Virtual Network**를 내부적으로 구성함으로써 각 VM이 외부와 통신할 수 있게 한다. <br> 이 네트워크는 실제 물리적 LAN을 흉내내며, 하나의 물리적 NIC를 여러 VM이 공유하도록 만들어준다.  
 
@@ -87,7 +88,7 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 <br>
 
-### 0️⃣ Virtual Network Editor 설정
+## 0️⃣ Virtual Network Editor 설정
 
 \- Virtual Network Editor는 VMware Workstation 메뉴에서 제공되는 도구임 <br> \- 각 VMnet의 네트워크 모드를 직접 지정할 수 있음 <br> \- Wi-Fi 또는 유선랜을 Bridge 대상으로 지정할 수 있으며, NAT나 Host-Only로도 변경 가능함
 
@@ -108,34 +109,34 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 <br>
 
-## ◈ DNS 서버 설정
+# ◈ DNS 서버 설정
 
 vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESXi 호스트와 vCenter를 식별**해야 한다. <br> 이때 이름과 IP를 서로 **매핑**해주는 역할을 담당하는 것이 DNS 서버이다. <br> 여기서 이름이란 서버의 FQDN과 같은 도메인 기반 호스트 이름을 의미하며, <br> DNS는 이러한 이름을 **실제 IP 주소로 변환**하거나 반대로 IP를 이름으로 해석한다.
 
 <br>
 
-### 1️⃣ Windows Server 대시보드에서 DNS 역할 추가
+## 1️⃣ Windows Server 대시보드에서 DNS 역할 추가
 
 \- Server Manager에서 역할 및 기능 추가(Add Roles and Features) 클릭 <br> \- DNS Server 역할 선택 후 설치 완료 <br> \- 설치가 끝나면 서버 관리자 대시보드에 “DNS” 메뉴가 생김
 
 <img src="./images/vm9.png" width="800" alt="vm9">
 
 
-### 2️⃣ DNS 서버 이름과 IPv4 주소 확인
+## 2️⃣ DNS 서버 이름과 IPv4 주소 확인
 
 \- 서버 이름(FQDN)과 IPv4 주소를 기록해두면 이후 vCenter 설정 시 참조할 수 있음 <br> \- 서버 상태가 온라인(Online)으로 표시돼야 정상 동작 중임을 의미함
 
 <img src="./images/vm10.png" width="600" alt="vm10">
 
 
-### 3️⃣ DNS 관리 콘솔(DNS Manager) 진입
+## 3️⃣ DNS 관리 콘솔(DNS Manager) 진입
 
 \- DNS 탭에서 해당 서버를 우클릭해 “DNS 관리자” 선택 <br> \- DNS Manager를 통해 정방향/역방향 조회 영역을 직접 구성할 수 있음
 
 <img src="./images/vm11.png" width="600" alt="vm11">
 
 
-### 4️⃣ 정방향 조회 영역 생성 및 호스트 등록
+## 4️⃣ 정방향 조회 영역 생성 및 호스트 등록
 
 \- DNS Manager에서 정방향 조회 영역을 선택함 <br> \- 새 영역을 만들어 **도메인 이름을 지정**함 <br> \- 해당 영역 내부에서 “**새 호스트**(A 또는 AAAA)”를 추가해 FQDN과 IP 주소를 매핑함
 
@@ -148,7 +149,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 <br>
 
-## ◈ 스토리지 가상화
+# ◈ 스토리지 가상화
 
 서버 가상화가 여러 VM을 하나의 물리 서버 위에서 운영하는 것이라면, <br> 스토리지 가상화(Storage Virtualization)는 여러 스토리지를 하나로 묶어 **논리적으로 통합·관리**한다. <br> 이는 VMware 환경에서 DataStore, iSCSI, NFS, vSAN 등의 형태로 구현된다. 
 
@@ -177,11 +178,11 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 <br>
 
-### 0️⃣ iSCSI 연결 설정
+## 0️⃣ iSCSI 연결 설정
 
 \- iSCSI는 Internet Small Computer System Interface의 약자로 <br> \- **TCP/IP 네트워크**를 통해 스토리지 장치를 서버에 연결하는 기술임 <br> \- 즉, Fibre Channel 없이 LAN 환경에서도 SAN 구성이 가능함
 
 <img src="./images/vm13.png" width="500" alt="vm13">
 
 
-### 1️⃣ 호스트 설정 진입
+## 1️⃣ 호스트 설정 진입
