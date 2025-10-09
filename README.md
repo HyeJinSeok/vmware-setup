@@ -18,8 +18,15 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 ### - 목차 -
 
-000
-000
+[1. VMware의 주요 구성 요소](#-vmware의-주요-구성-요소)
+
+[2. VMware 네트워크 구성](#-vmware-네트워크-구성)
+
+[3. DNS 서버 설정](#-dns-서버-설정)
+
+[4. 스토리지 가상화](#-스토리지-가상화)
+
+[5. DataStore 생성](#-datastore-생성)
 
 <br>
 
@@ -27,7 +34,7 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 VMware 가상화 환경은 단일 소프트웨어로 동작하는 것이 아니라, <br> 서버 가상화, 중앙 관리, 개인용 가상화 등 여러 구성요소가 유기적으로 결합되어 동작한다. 
 
-이러한 구성요소들은 각각의 계층과 역할이 다르기 때문에, <br> 전체 구조를 이해하기 위해서는 각 요소의 기능과 동작방식을 개별적으로 살펴볼 필요가 있다.
+이러한 구성 요소들은 각각의 계층과 역할이 다르기 때문에, <br> 전체 구조를 이해하기 위해서는 각 요소의 기능과 동작방식을 개별적으로 살펴볼 필요가 있다.
 
 <br>
 
@@ -62,11 +69,17 @@ VMware 가상화 환경은 단일 소프트웨어로 동작하는 것이 아니�
 
 <br>
 
+---
+
+<br>
+
 # ◈ VMware 네트워크 구성
 
 네트워크 설정은 가상화 환경에서 가장 중요한 핵심 요소 중 하나다. <br> VMware는 **Virtual Network**를 내부적으로 구성함으로써 각 VM이 외부와 통신할 수 있게 한다. <br> 이 네트워크는 실제 물리적 LAN을 흉내내며, 하나의 물리적 NIC를 여러 VM이 공유하도록 만들어준다.  
 
-< 가상 네트워크의 세 가지 모드 >
+<br>
+
+### < 가상 네트워크의 세 가지 모드 >
 
 <table>
   <tr>
@@ -117,6 +130,10 @@ VMware 가상화 환경은 단일 소프트웨어로 동작하는 것이 아니�
 
 <br>
 
+---
+
+<br>
+
 # ◈ DNS 서버 설정
 
 vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESXi 호스트와 vCenter를 식별**해야 한다. <br> 이때 이름과 IP를 서로 **매핑**해주는 역할을 담당하는 것이 DNS 서버이다. <br> 여기서 이름이란 서버의 FQDN과 같은 도메인 기반 호스트 이름을 의미하며, <br> DNS는 이러한 이름을 **실제 IP 주소로 변환**하거나 반대로 IP를 이름으로 해석한다.
@@ -155,8 +172,11 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 
 > [!TIP]
-> 정방향 조회(Forward Lookup)는 DNS 서버의 가장 기본적인 기능으로, <br> 사람이 이해하기 쉬운 도메인 이름을 IP 주소로 변환하는 역할을 한다. <br><br> 반대로 역방향 조회(Reverse Lookup) 는 IP 주소를 도메인 이름으로 변환하는 기능으로, <br> 주로 네트워크 분석이나 보안 로그 확인 시 사용된다. <br><br> 따라서 vCenter 설치 전에 DNS 서버에서
-**정방향 조회 영역을 반드시 생성**해야 하며, <br> ESXi 호스트와 vCenter의 이름(FQDN)과 IP가 올바르게 매핑되어 있어야 한다.
+> 정방향 조회(Forward Lookup)는 DNS 서버의 가장 기본적인 기능으로, <br> 사람이 이해하기 쉬운 도메인 이름을 IP 주소로 변환하는 역할을 한다. <br><br> 반대로 역방향 조회(Reverse Lookup) 는 IP 주소를 도메인 이름으로 변환하는 기능으로, <br> 주로 네트워크 분석이나 보안 로그 확인 시 사용된다. <br><br> 따라서 **vCenter 설치 전에 DNS 서버에서 정방향 조회 영역을 반드시 생성**해야 하며, <br> ESXi 호스트와 vCenter의 이름(FQDN)과 IP가 올바르게 매핑되어 있어야 한다.
+
+<br>
+
+---
 
 <br>
 
@@ -168,7 +188,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 <br>
 
-### < 주요 스토리지 가상화 구성요소 특징 >
+### < 주요 스토리지 가상화 구성 요소 >
 
 <table>
   <tr>
@@ -193,10 +213,84 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 ## 0️⃣ iSCSI 연결 설정
 
-\- iSCSI는 Internet Small Computer System Interface의 약자로 <br> \- **TCP/IP 네트워크**를 통해 스토리지 장치를 서버에 연결하는 기술임 <br> \- 즉, Fibre Channel 없이 LAN 환경에서도 SAN 구성이 가능함
+\- iSCSI는 Internet Small Computer System Interface의 약자 <br> \- **TCP/IP 네트워크를 통해 스토리지 장치를 서버에 연결하는 기술**임 <br> \- 즉 Fibre Channel 없이 LAN 환경에서도 SAN 구성이 가능함
 
 <img src="./images/vm13.png" width="500" alt="vm13">
 
 <br>
 
 ## 1️⃣ 호스트 설정 진입
+
+\- vSphere Client에서 ESXi 호스트를 선택한 후 우클릭 → 설정 메뉴를 클릭함 
+
+<img src="./images/vm14.png" width="400" alt="vm14">
+
+<br>
+
+## 2️⃣ iSCSI Software Adapter 확인
+
+\- ESXi 호스트가 네트워크를 통해 스토리지 장치(iSCSI Target)에 접근하게 해주는 **논리적 인터페이스** <br> \- 구성 탭 → 스토리지 어댑터에 기본적으로 **vmhba65**라는 iSCSI Software Adapter가 자동 생성돼 있음
+
+<img src="./images/vm15.png" width="1000" alt="vm15">
+
+<br>
+
+## 3️⃣ 포트 바인딩 설정
+
+\- iSCSI 트래픽이 어떤 네트워크 인터페이스를 통해 전송될지 명시적으로 지정해야 함 <br> \- 즉 ESXi 호스트가 여러 개의 NIC를 가지고 있을 때, <br> \- 스토리지 접근용 트래픽이 VM 네트워크 등으로 섞이지 않도록 **전용 경로를 고정**함
+
+<img src="./images/vm16.png" width="700" alt="vm16">
+
+<br>
+
+\- 네트워크 포트 바인딩 탭을 선택하고, **스토리지 전용 VMkernel 포트**를 바인딩함
+
+<img src="./images/vm17.png" width="700" alt="vm17">
+
+<br>
+
+## 4️⃣ iSCSI Target 등록 (동적 검색)
+
+\- ESXi가 스토리지에 접근하려면, Target(스토리지)의 IP주소와 포트(기본 3260) 정보를 등록해야 함 <br> \- 동적 검색 탭에서 **스토리지 서버의 IP 주소**를 입력하면, ESXi가 해당 서버에 자동으로 연결 요청을 보냄
+
+<img src="./images/vm18.png" width="700" alt="vm18">
+
+<br>
+
+## 5️⃣ 디바이스 확인
+
+\- 타깃이 정상적으로 등록되면, Device 탭에 연결된 디스크(LUN)가 표시됨 <br> \- 이 LUN은 스토리지에서 서버로 제공되는 논리적 디스크임
+
+<img src="./images/vm19.png" width="700" alt="vm19">
+
+<br>
+
+---
+
+<br>
+
+# ◈ DataStore 생성
+
+iSCSI를 통해 연결된 디스크(LUN)는 VMware에서 바로 사용할 수 있는 형태가 아니다. <br> **이를 VMware 전용 파일 시스템으로 포맷해야만, VM이 스토리지 공간을 실제로 사용할 수 있다.** <br> 이 과정을 통해 생성되는 것이 바로 DataStore다.
+
+DataStore는 VMware가 인식할 수 있는 논리적 스토리지 단위로 <br> VM의 디스크 파일(VMDK), ISO 이미지, 스냅샷 등의 데이터를 저장하는 공간이다.
+
+<br>
+
+### < iSCSI 기반 VMFS DataStore 생성 절차 예시 >
+
+0️⃣ vSphere Client에서 [Storage] → [Datastores] → [New Datastore] 선택함
+
+1️⃣ Create new VMFS datastore를 선택해 새 스토리지를 생성함
+
+2️⃣ DataStore 이름을 지정하고, iSCSI로 연결된 디바이스(LUN)을 선택함
+
+3️⃣ 파일 시스템 형식으로 VMFS 6을 선택하고 포맷을 진행함
+
+4️⃣ 완료 후, Storage 목록에서 새로 생성된 DataStore를 확인할 수 있음
+
+<img src="./images/vm20.png" width="800" alt="vm20">
+
+
+> [!WARNING]
+> Storage는 DataStore가 아니다! <br> 단순한 디스크(HDD, SSD)는 포맷되지 않은 물리 공간일 뿐이며 <br> VMware가 이를 사용하려면 DataStore로 변환해야 한다. <br><br> DataStore는 파일 저장소가 아니라, VM 데이터 관리와 접근을 위한 데이터베이스형 구조에 가깝다. <br> 여러 호스트가 동시에 접근 가능한 Shared DataStore를 구성하면 <br> VM 간 마이그레이션(vMotion)과 고가용성(HA) 기능을 사용할 수 있다.
