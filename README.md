@@ -28,6 +28,8 @@ VMware는 전 세계적으로 널리 사용되는 가상화 기술 기업이다.
 
 [5. DataStore 생성](#-datastore-생성)
 
+[6. vMotion 구성](#-vmotion-구성)
+
 <br>
 
 # ◈ VMware의 주요 구성 요소
@@ -144,7 +146,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 \- Server Manager에서 역할 및 기능 추가(Add Roles and Features) 클릭 <br> \- DNS Server 역할 선택 후 설치 완료 <br> \- 설치가 끝나면 서버 관리자 대시보드에 “DNS” 메뉴가 생김
 
-<img src="./images/vm9.png" width="500" alt="vm9">
+<img src="./images/vm9.png" width="600" alt="vm9">
 
 <br>
 
@@ -152,7 +154,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 \- 서버 이름(FQDN)과 IPv4 주소를 기록해두면 이후 vCenter 설정 시 참조할 수 있음 <br> \- 서버 상태가 온라인(Online)으로 표시돼야 정상 동작 중임을 의미함
 
-<img src="./images/vm10.png" width="600" alt="vm10">
+<img src="./images/vm10.png" width="700" alt="vm10">
 
 <br>
 
@@ -160,7 +162,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 \- DNS 탭에서 해당 서버를 우클릭해 “DNS 관리자” 선택 <br> \- DNS Manager를 통해 정방향/역방향 조회 영역을 직접 구성할 수 있음
 
-<img src="./images/vm11.png" width="600" alt="vm11">
+<img src="./images/vm11.png" width="700" alt="vm11">
 
 <br>
 
@@ -301,4 +303,62 @@ DataStore는 VMware가 인식할 수 있는 논리적 스토리지 단위로 <br
 
 <br>
 
-# ◈ vMotion 구성 및 테스트
+# ◈ vMotion 구성
+
+vMotion은 실행 중인 VM을 중단 없이 다른 호스트로 이동시키는 VMware의 핵심 기능이다. <br> 운영 중인 서비스를 멈추지 않고 CPU, 메모리, 네트워크 상태를 그대로 유지한 채 <br> 실시간 이동이 가능하다는 점에서, 데이터센터의 가용성과 유연성을 높여준다.
+
+그러나 단순히 네트워크만 연결된다고 해서 동작하지 않고, 아래 두 가지 조건이 충족돼야 한다: <br> **✅ 두 ESXi 호스트가 동일한 공유 스토리지(DataStore)에 접근할 수 있어야 함** <br> **✅ vMotion 트래픽을 위한 전용 네트워크(vMotion Network)가 별도로 구성돼야 함**
+
+> [!IMPORTANT]
+> vMotion은 메모리 및 CPU 상태를 네트워크로 복제하지만, VM의 가상 디스크(VMDK)는 이동시키지 않는다. <br> 따라서 양쪽 호스트가 같은 DataStore를 바라보고 있어야 파일 손상 없이 VM을 실시간으로 전송할 수 있다. <br><br> 이 과정에서 수백 MB~수 GB에 달하는 메모리 복제 트래픽이 발생하므로, <br> vMotion 트래픽은 일반 VM 네트워크와 물리적으로 분리된 전용 경로를 사용하는 것이 필수적이다. <br> 이를 위해 **각 ESXi 호스트에는 별도의 NIC와 VMkernel 포트를 구성해 vMotion 전용 네트워크를 만든다.**
+
+<br>
+
+### < vMotion 아키텍처 >
+
+<img src="./images/vm21.png" width="600" alt="vm21">
+
+```
+1) 원본 호스트의 VM 메모리, CPU 상태를 vMotion Network로 복제
+
+2) 타깃 호스트가 동일한 DataStore를 통해 VM 디스크 파일 접근
+
+3) 모든 상태 동기화 후, VM 실행을 타깃 호스트로 전환
+```
+
+<br>
+
+## 1️⃣ ESXi 가상머신에 vMotion용 NIC 추가
+
+\- vMotion 트래픽을 전용화하기 위해 <strong>양쪽 ESXi VM에 Host-only 네트워크(VMnet1)</strong>를 할당함 <br> \- VM이 꺼진(Power Off) 상태에서 NIC를 추가해야 함
+
+<img src="./images/vm22.png" width="800" alt="vm22">
+
+<br>
+
+\- NIC 추가 후, ESXi를 재부팅하면 아래와 같이 새 물리 어댑터가 인식됨
+
+<img src="./images/vm23.png" width="1000" alt="vm23">
+
+> [!TIP]
+> 기본적으로 ESXi VM은 외부망 연결용 Bridged 어댑터 하나만 가지고 시작한다. <br> vMotion 트래픽을 분리하기 위해서는 **두 번째 네트워크 어댑터를 추가**해야 하며, <br> 이때 Custom → VMnet1 (Host-only)로 설정하면 된다.
+
+<br>
+
+## 2️⃣ vSwitch 생성
+
+\- 새로 인식된 물리 어댑터를 **vMotion 전용 가상 스위치**에 연결해야 함 <br> \- 이를 통해 vMotion 트래픽이 기존 Management Network와 분리돼 독립적으로 전송됨
+
+<img src="./images/vm24.png" width="1000" alt="vm24">
+
+<br>
+
+## 3️⃣ VMkernel 어댑터 생성
+
+\- vSwitch 위에 VMkernel 어댑터를 생성해 vMotion 트래픽이 실제로 흐를 수 있도록 설정함 <br> \- VMkernel은 ESXi 호스트가 IP를 통해 통신하는 인터페이스
+
+<img src="./images/vm25.png" width="1000" alt="vm25">
+
+<br>
+
+## 4️⃣ vMotion 실행
