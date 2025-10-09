@@ -144,7 +144,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 \- Server Manager에서 역할 및 기능 추가(Add Roles and Features) 클릭 <br> \- DNS Server 역할 선택 후 설치 완료 <br> \- 설치가 끝나면 서버 관리자 대시보드에 “DNS” 메뉴가 생김
 
-<img src="./images/vm9.png" width="800" alt="vm9">
+<img src="./images/vm9.png" width="500" alt="vm9">
 
 <br>
 
@@ -172,7 +172,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 
 > [!TIP]
-> 정방향 조회(Forward Lookup)는 DNS 서버의 가장 기본적인 기능으로, <br> 사람이 이해하기 쉬운 도메인 이름을 IP 주소로 변환하는 역할을 한다. <br><br> 반대로 역방향 조회(Reverse Lookup) 는 IP 주소를 도메인 이름으로 변환하는 기능으로, <br> 주로 네트워크 분석이나 보안 로그 확인 시 사용된다. <br><br> 따라서 **vCenter 설치 전에 DNS 서버에서 정방향 조회 영역을 반드시 생성**해야 하며, <br> ESXi 호스트와 vCenter의 이름(FQDN)과 IP가 올바르게 매핑되어 있어야 한다.
+> <strong>정방향 조회(Forward Lookup)</strong>는 DNS 서버의 가장 기본적인 기능으로, <br> 사람이 이해하기 쉬운 도메인 이름을 IP 주소로 변환하는 역할을 한다. <br><br> 반대로 <strong>역방향 조회(Reverse Lookup)</strong>는 IP 주소를 도메인 이름으로 변환하는 기능으로, <br> 주로 네트워크 분석이나 보안 로그 확인 시 사용된다. <br><br> 따라서 **vCenter 설치 전에 DNS 서버에서 정방향 조회 영역을 반드시 생성**해야 하며, <br> ESXi 호스트와 vCenter의 이름(FQDN)과 IP가 올바르게 매핑되어 있어야 한다.
 
 <br>
 
@@ -239,13 +239,13 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 \- iSCSI 트래픽이 어떤 네트워크 인터페이스를 통해 전송될지 명시적으로 지정해야 함 <br> \- 즉 ESXi 호스트가 여러 개의 NIC를 가지고 있을 때, <br> \- 스토리지 접근용 트래픽이 VM 네트워크 등으로 섞이지 않도록 **전용 경로를 고정**함
 
-<img src="./images/vm16.png" width="700" alt="vm16">
+<img src="./images/vm16.png" width="800" alt="vm16">
 
 <br>
 
 \- 네트워크 포트 바인딩 탭을 선택하고, **스토리지 전용 VMkernel 포트**를 바인딩함
 
-<img src="./images/vm17.png" width="700" alt="vm17">
+<img src="./images/vm17.png" width="800" alt="vm17">
 
 <br>
 
@@ -253,7 +253,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 \- ESXi가 스토리지에 접근하려면, Target(스토리지)의 IP주소와 포트(기본 3260) 정보를 등록해야 함 <br> \- 동적 검색 탭에서 **스토리지 서버의 IP 주소**를 입력하면, ESXi가 해당 서버에 자동으로 연결 요청을 보냄
 
-<img src="./images/vm18.png" width="700" alt="vm18">
+<img src="./images/vm18.png" width="800" alt="vm18">
 
 <br>
 
@@ -261,7 +261,7 @@ vCenter 설치를 위해서는 **FQDN**(Fully Qualified Domain Name)으로 **ESX
 
 \- 타깃이 정상적으로 등록되면, Device 탭에 연결된 디스크(LUN)가 표시됨 <br> \- 이 LUN은 스토리지에서 서버로 제공되는 논리적 디스크임
 
-<img src="./images/vm19.png" width="700" alt="vm19">
+<img src="./images/vm19.png" width="800" alt="vm19">
 
 <br>
 
@@ -293,4 +293,12 @@ DataStore는 VMware가 인식할 수 있는 논리적 스토리지 단위로 <br
 
 
 > [!WARNING]
-> Storage는 DataStore가 아니다! <br> 단순한 디스크(HDD, SSD)는 포맷되지 않은 물리 공간일 뿐이며 <br> VMware가 이를 사용하려면 DataStore로 변환해야 한다. <br><br> DataStore는 파일 저장소가 아니라, VM 데이터 관리와 접근을 위한 데이터베이스형 구조에 가깝다. <br> 여러 호스트가 동시에 접근 가능한 Shared DataStore를 구성하면 <br> VM 간 마이그레이션(vMotion)과 고가용성(HA) 기능을 사용할 수 있다.
+> **Storage는 DataStore가 아니다!** <br> Storage는 단순한 디스크(HDD, SSD)는 포맷되지 않은 물리 공간일 뿐이며 <br> VMware가 이를 사용하려면 DataStore로 변환해야 한다. <br><br> DataStore는 파일 저장소가 아니라, VM 데이터 관리와 접근을 위한 **데이터베이스형 구조**에 가깝다. <br> 여러 호스트가 동시에 접근 가능한 Shared DataStore를 구성하면 <br> VM 간 마이그레이션(vMotion)과 고가용성(HA) 기능을 사용할 수 있다.
+
+<br>
+
+---
+
+<br>
+
+# ◈ vMotion 구성 및 테스트
