@@ -359,6 +359,19 @@ vMotion은 실행 중인 VM을 중단 없이 다른 호스트로 이동시키는
 
 <img src="./images/vm25.png" width="1000" alt="vm25">
 
+> [!TIP]
+> VMkernel( ==vmk1)은 vMotion용 TCP/IP 스택을 사용하며, 다른 호스트의 vmk1과 직접 통신한다. <br> 두 호스트 간 vMotion 트래픽은 <strong>vSwitch1 ↔ vmk1 경로</strong>를 통해 오가며, 이 IP를 통해 메모리 복제가 이루어진다.
+<br><br> 일반 VM의 vNIC이 게스트 OS용 네트워크 어댑터라면, <br> **VMkernel 어댑터는 호스트 레벨 트래픽( =IP 포트 역할)을 수행**한다.
+
 <br>
 
 ## 4️⃣ vMotion 실행
+
+\- vCenter에서 VM을 **드래그 앤 드롭**하면 자동으로 Migration(마이그레이션) 창이 열림 <br> \- 마이그레이션 유형은 <strong>"계산 리소스 및 스토리지 모두 변경"</strong>을 선택해야 함 (호스트와 DataStore 모두 이동)
+
+<img src="./images/vm26.png" width="300" alt="vm26">
+
+<img src="./images/vm27.png" width="1000" alt="vm27">
+
+> [!TIP]
+> vCenter가 두 호스트 간 공유 스토리지 및 vMotion 네트워크 연결을 이미 검증했다면 <br> 드래그앤드롭만으로 Migration 창이 뜨게 된다. <br> 즉, 사전에 구성된 vSwitch1–vmk1–Shared DataStore 구조가 올바르게 동작하고 있음을 나타낸다.
